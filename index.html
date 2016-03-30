@@ -27,6 +27,10 @@
                 background_offset = 0;
                 $("body").css('background-color', 'green')
             }
+            else if (isNaN(the_guess)) {
+                $("#response_div").html('Invalid input!');
+                $("body").css('background-color', 'white')
+            }
             else if (the_guess > the_number) {
                 $("#response_div").html('Too high!');
                 if (background_offset > -5) {$("body").css('background-color', '#ff0000');}
@@ -68,6 +72,6 @@
 <input type="text" name="num" id="guess_input">
 <button id="debutan">Guess</button>
 
-<div id="response_div"> </div>
+<div id="response_div">Guess a number between 1 and 100</div>
 </body>
 </html>
