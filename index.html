@@ -1,77 +1,110 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Guess a number</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script>
-        var the_number = null;
+        function game(){
+            var self = this;
+            this.the_number = null;
 
-        function pick_number() {
-            var random_number;
-            random_number = Math.ceil(100 * Math.random());
-            console.log(random_number);
-            return random_number;
-        };
+            this.pick_number = function() {
+                var random_number;
+                random_number = Math.ceil(100 * Math.random());
+                console.log(random_number);
+                return random_number;
+            };
 
-        function make_guess() {
-            var the_guess;
-            var background_offset = 0;
-            the_guess = $("#guess_input").val();
-            //console.log(the_guess);
-            //too high = negative number, too low = positive number
-            background_offset = the_number - the_guess;
+            this.make_guess = function() {
+                this.background_offset = 0;
+                this.the_guess = $("#guess_input").val();
+                //console.log(the_guess);
+                //too high = negative number, too low = positive number
+                this.background_offset = self.the_number - this.the_guess;
 
-            if (the_guess == the_number) {
-                $("#response_div").html('You guessed it!');
-                background_offset = 0;
-                $("body").css('background-color', 'green')
-            }
-            else if (isNaN(the_guess)) {
-                $("#response_div").html('Invalid input!');
-                $("body").css('background-color', 'white')
-            }
-            else if (the_guess > the_number) {
-                $("#response_div").html('Too high!');
-                if (background_offset > -5) {$("body").css('background-color', '#ff0000');}
-                else if (background_offset > -15) {$("body").css('background-color', '#dd0000');}
-                else if (background_offset > -25) {$("body").css('background-color', '#bb0000');}
-                else if (background_offset > -35) {$("body").css('background-color', '#990000');}
-                else if (background_offset > -45) {$("body").css('background-color', '#770000');}
-                else if (background_offset > -55) {$("body").css('background-color', '#550000');}
-                else {$("body").css('background-color', '#330000');}
-            }
-            else {
-                $("#response_div").html('Too low!');
-                if (background_offset < 5) {$("body").css('background-color', '#0000ff');}
-                else if (background_offset < 15) {$("body").css('background-color', '#0000dd');}
-                else if (background_offset < 25) {$("body").css('background-color', '#0000bb');}
-                else if (background_offset < 35) {$("body").css('background-color', '#000099');}
-                else if (background_offset < 45) {$("body").css('background-color', '#000077');}
-                else if (background_offset < 55) {$("body").css('background-color', '#000055');}
-                else {$("body").css('background-color', '#000033');}
-            }
+                if (this.the_guess == self.the_number) {
+                    $("#response_div").html('You guessed it!');
+                    this.background_offset = 0;
+                    $("body").css('background-color', 'green');
+                }
+                else if (isNaN(this.the_guess)) {
+                    $("#response_div").html('Invalid input!');
+                    $("body").css('background-color', 'white');
+                }
+                else if (this.the_guess > self.the_number) {
+                    $("#response_div").html('Too high!');
+                    if (this.background_offset > -5) {$("body").css('background-color', '#ff0000');}
+                    else if (this.background_offset > -15) {$("body").css('background-color', '#dd0000');}
+                    else if (this.background_offset > -25) {$("body").css('background-color', '#bb0000');}
+                    else if (this.background_offset > -35) {$("body").css('background-color', '#990000');}
+                    else if (this.background_offset > -45) {$("body").css('background-color', '#770000');}
+                    else if (this.background_offset > -55) {$("body").css('background-color', '#550000');}
+                    else {$("body").css('background-color', '#330000');}
+                }
+                else {
+                    $("#response_div").html('Too low!');
+                    if (this.background_offset < 5) {$("body").css('background-color', '#0000ff');}
+                    else if (this.background_offset < 15) {$("body").css('background-color', '#0000dd');}
+                    else if (this.background_offset < 25) {$("body").css('background-color', '#0000bb');}
+                    else if (this.background_offset < 35) {$("body").css('background-color', '#000099');}
+                    else if (this.background_offset < 45) {$("body").css('background-color', '#000077');}
+                    else if (this.background_offset < 55) {$("body").css('background-color', '#000055');}
+                    else {$("body").css('background-color', '#000033');}
+                }
+            };
         };
 
         $(document).ready(function(){
-            $("#debutan").click(function() {
+            var newGame = new game();
+
+            newGame.the_number = newGame.pick_number();
+
+            $("#make_guess").click(function() {
                 //console.log('butan click');
-                make_guess();
+                newGame.make_guess();
+            });
+
+            $("#reset").click(function() {
+                //console.log('butan click');
+                newGame.the_number = newGame.pick_number();
+                $("body").css('background-color', '#ffffff');
+                $("#response_div").html('Guess a number between 1 and 100');
+                $("#guess_input").val('');
             });
         });
 
     </script>
+
+    <!-- Boostrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
     <style>
-        div {
+        body {
+            height: 100vh;
+            width: 100vw;
+            font-size: 3em;
+        }
+
+        body div * {
+            margin-bottom: 10%;
+        }
+
+        #response_div {
             background-color: lightblue;
             float: right;
         }
     </style>
 </head>
-<body onload="the_number = pick_number();">
-<input type="text" name="num" id="guess_input">
-<button id="debutan">Guess</button>
+<body class="container-fluid">
+<div class="row">
+    <input type="number" name="num" id="guess_input" class="col-xs-12">
+    <button id="make_guess" class="col-xs-6">Guess</button>
+    <button id="reset" class="col-xs-6">Reset</button>
 
-<div id="response_div">Guess a number between 1 and 100</div>
+    <div id="response_div" class="col-xs-12">Guess a number between 1 and 100</div>
+</div>
 </body>
 </html>
