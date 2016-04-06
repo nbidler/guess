@@ -10,10 +10,11 @@
 > and changing HTML or CSS displayed in response.
 
 # TO DO
-> Make responsive to screen size
 > Allow multiple players on same game to take turns
-> Make program structure more Object-oriented
+
 
 # ADDITIONAL FEATURES ADDED
 > Range Response/Visual Cues - background color changes depending on how far above/below the most recent guess was,
 >   blue low, red high, green when match found.
+> Make responsive to screen size
+> Make program structure more Object-oriented
